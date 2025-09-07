@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The MuSo Art Pursuit</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #fff0f5; /* Softer, art-themed background */
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z" stroke="%23ffb7c5" stroke-width="2" fill="none" /></svg>');
+            background-repeat: repeat;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 5px solid #ffb7c5; /* Softer, art-themed border */
+        }
+        h1 {
+            color: #9c89b8; /* Muted purple */
+            text-shadow: 2px 2px 0px #e0bbe4;
+        }
+        .intro {
+            margin-bottom: 25px;
+        }
+        .clue-box {
+            background-color: #f8f0fb;
+            border: 3px solid #9c89b8;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .keyword {
+            font-weight: bold;
+            color: #d291bc;
+        }
+        .hint-button {
+            background-color: #b892ff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 10px 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .button {
+            background-color: #9c89b8;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 15px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background-color: #d291bc;
+            transform: scale(1.05);
+        }
+        .fact {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #successMessage {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0e6ef;
+            border-radius: 15px;
+            border: 3px solid #d291bc;
+            animation: popIn 0.5s ease;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎨 The MuSo Art Pursuit 🎨</h1>
+        
+        <p class="intro">Calling all artists and creators! Your mission is to find a special art technique hidden in the studio. Crack the clue to discover its name!</p>
+        
+        <div class="clue-box">
+            <p>To find the art of patterns and repeat,<br>
+            Where ink and pressure creatively meet!</p>
+            
+            <p>You'll carve your design on a soft, rubbery block,<br>
+            With a <span class="keyword">special gouging tool</span> that helps you unlock.<br>
+            Then roll on the ink with a <span class="keyword">brayer</span> so fine,<br>
+            And press it to paper to make the design <span class="keyword">shine</span>!</p>
+            
+            <p>Each print is a treasure, a limited sight,<br>
+            The name of this method? It's your clue to <span class="keyword">unite</span>!</p>
+            
+            <p>It starts with a word for the block that you slice,<br>
+            And ends with the action that makes it look <span class="keyword">nice</span>!</p>
+        </div>
+
+        <button class="hint-button" onclick="showFact('finalHint')">I need a hint!</button>
+        <p id="finalHint" class="fact">The name is two words. The first word is short for "linoleum," the material you carve. The second word is what you do to create multiple copies of your artwork.</p>
+
+        <br>
+        <button class="button" onclick="revealAnswer()">I know the answer!</button>
+        
+        <div id="successMessage">
+            <h2>🎉 You Did It! 🎉</h2>
+            <p>You've cracked the code! The answer is...</p>
+            <h2><span class="keyword">Lino Printing</span>!</h2>
+            <p>This is the art of carving a design into a linoleum block, inking it, and pressing it onto paper to create beautiful prints.</p>
+            <p><strong>Your mission:</strong> Find a MuSo Art Guide and tell them the name of this technique to claim your reward! Great work, artist!</p>
+        </div>
+    </div>
+
+    <script>
+        function showFact(factId) {
+            var factElement = document.getElementById(factId);
+            if (factElement.style.display === "block") {
+                factElement.style.display = "none";
+            } else {
+                factElement.style.display = "block";
+            }
+        }
+
+        function revealAnswer() {
+            var answer = prompt("What is the name of this printing technique? (Check your spelling!)").toLowerCase().trim();
+            
+            // Check for the correct answer, allowing for minor variations
+            if (answer === "lino printing" || answer === "linoprinting" || answer === "linocut") {
+                document.getElementById("successMessage").style.display = "block";
+            } else {
+                alert("That's not quite it! Re-read the clue. Think about the material and the action. Try again!");
+            }
+        }
+    </script>
+</body>
+</html>
