@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakeMission Treasure Hunt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #4a148c 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #ffeb3b;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.7);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #e1bee7;
+        }
+        
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .mission-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mission-card:nth-child(1) { animation-delay: 0.2s; }
+        .mission-card:nth-child(2) { animation-delay: 0.4s; }
+        .mission-card:nth-child(3) { animation-delay: 0.6s; }
+        .mission-card:nth-child(4) { animation-delay: 0.8s; }
+        
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(126, 87, 194, 0.4);
+        }
+        
+        .task-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffeb3b;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid #ffeb3b;
+        }
+        
+        .mission-card:nth-child(1) { border-color: #ff5252; }
+        .mission-card:nth-child(2) { border-color: #448aff; }
+        .mission-card:nth-child(3) { border-color: #69f0ae; }
+        .mission-card:nth-child(4) { border-color: #ffab40; }
+        
+        .mission-card:nth-child(1):hover { box-shadow: 0 15px 30px rgba(255, 82, 82, 0.4); }
+        .mission-card:nth-child(2):hover { box-shadow: 0 15px 30px rgba(68, 138, 255, 0.4); }
+        .mission-card:nth-child(3):hover { box-shadow: 0 15px 30px rgba(105, 240, 174, 0.4); }
+        .mission-card:nth-child(4):hover { box-shadow: 0 15px 30px rgba(255, 171, 64, 0.4); }
+        
+        .mission-icon {
+            font-size: 4rem;
+            margin: 20px 0;
+            display: block;
+        }
+        
+        .mission-card:nth-child(1) .mission-icon { color: #ff5252; }
+        .mission-card:nth-child(2) .mission-icon { color: #448aff; }
+        .mission-card:nth-child(3) .mission-icon { color: #69f0ae; }
+        .mission-card:nth-child(4) .mission-icon { color: #ffab40; }
+        
+        .mission-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ffeb3b;
+        }
+        
+        .mission-desc {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #e1bee7;
+            line-height: 1.5;
+        }
+        
+        .mission-btn {
+            display: inline-block;
+            background: linear-gradient(to right, #00c853, #64dd17);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 0 #009624;
+        }
+        
+        .mission-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 #009624;
+        }
+        
+        .mission-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #009624;
+        }
+        
+        .countdown {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            border: 2px solid #7e57c2;
+        }
+        
+        .countdown-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ffeb3b;
+        }
+        
+        .countdown-timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #69f0ae;
+            text-shadow: 0 0 10px rgba(105, 240, 174, 0.5);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #b39ddb;
+            font-size: 1rem;
+        }
+        
+        .treasure-animation {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 5rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1.2rem; }
+            .mission-grid { grid-template-columns: 1fr; }
+            .mission-icon { font-size: 3rem; }
+            .mission-title { font-size: 1.5rem; }
+            .treasure-animation { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MakeMission Treasure Hunt</h1>
+            <p class="subtitle">Complete all tasks to unlock the final treasure!</p>
+        </header>
+        
+        <div class="treasure-animation">🗺️🔍✨</div>
+        
+        <div class="countdown">
+            <div class="countdown-title">Next Mission Starts In:</div>
+            <div class="countdown-timer" id="timer">00:10:00</div>
+        </div>
+        
+        <div class="mission-grid">
+            <div class="mission-card">
+                <div class="task-number">1</div>
+                <span class="mission-icon">🕶️</span>
+                <h2 class="mission-title">Task 1</h2>
+                <p class="mission-desc">Step into an augmented reality adventure where digital elements blend with the real world.</p>
+                <a href="https://mywebar.com/p/Project_1_3xya9g8l9a" class="mission-btn">Start Task</a>
+            </div>
+            
+            <div class="mission-card">
+                <div class="task-number">2</div>
+                <span class="mission-icon">⚡</span>
+                <h2 class="mission-title">Task 2</h2>
+                <p class="mission-desc">Discover the world of fast prototyping with 3D printing and laser cutting technologies.</p>
+                <a href="https://hap4114.github.io/MakeMission/Rapid" class="mission-btn">Start Task</a>
+            </div>
+            
+            <div class="mission-card">
+                <div class="task-number">3</div>
+                <span class="mission-icon">🎨</span>
+                <h2 class="mission-title">Task 3</h2>
+                <p class="mission-desc">Learn the art of linocut printing and create your own unique artistic patterns.</p>
+                <a href="https://hap4114.github.io/MakeMission/Lino" class="mission-btn">Start Task</a>
+            </div>
+            
+            <div class="mission-card">
+                <div class="task-number">4</div>
+                <span class="mission-icon">🌳</span>
+                <h2 class="mission-title">Task 4</h2>
+                <p class="mission-desc">Explore the Tree of Curiosity where questions bloom and knowledge grows.</p>
+                <a href="https://hap4114.github.io/MakeMission/Tree1" class="mission-btn">Start Task</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 MakeMission Treasure Hunt | Museum of Solutions</p>
+        </footer>
+    </div>
+
+    <script>
+        // Countdown timer
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                
+                display.textContent = "00:" + minutes + ":" + seconds;
+                
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+        
+        window.onload = function () {
+            const thirtyMinutes = 10 * 60;
+            const display = document.querySelector('#timer');
+            startTimer(thirtyMinutes, display);
+        };
+        
+        // Add confetti effect on button hover
+        document.querySelectorAll('.mission-btn').forEach(button => {
+            button.addEventListener('mouseover', function() {
+                createConfetti(this.getBoundingClientRect().x + this.offsetWidth/2, 
+                              this.getBoundingClientRect().y);
+            });
+        });
+        
+        // Create simple confetti effect
+        function createConfetti(x, y) {
+            const colors = ['#ff5252', '#448aff', '#69f0ae', '#ffab40', '#ffeb3b'];
+            
+            for (let i = 0; i < 10; i++) {
+                const confetti = document.createElement('div');
+                confetti.innerHTML = '❋';
+                confetti.style.position = 'fixed';
+                confetti.style.fontSize = '1.2rem';
+                confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.zIndex = '9999';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                confetti.style.opacity = '1';
+                
+                document.body.appendChild(confetti);
+                
+                // Animate the confetti
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0)', opacity: 1 },
+                    { transform: `translateY(${Math.random() * 100 - 50}px) translateX(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 1000 + 1000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                });
+                
+                // Remove confetti after animation completes
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        }
+    </script>
+</body>
+</html>
